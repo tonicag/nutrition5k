@@ -89,4 +89,4 @@ For the training I leveraged Google Collab and their A100 gpus.
 # Evaluations
 
 For now, I only used some evaluations from the training, this is a work in progress.
-I will create some evaluations for each iteration I will create and discussed above.
+I will create some evaluations for each iteration discussed above and for the next ones I will create.
