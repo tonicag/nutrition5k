@@ -90,3 +90,42 @@ For the training I leveraged Google Collab and their A100 gpus.
 
 For now, I only used some evaluations from the training, this is a work in progress.
 I will create some evaluations for each iteration discussed above and for the next ones I will create.
+
+
+
+# Update 09.06.2025
+
+
+I abandoned the method of doing the classification and the macronutrient regression in the same model.
+The model performed very bad, compared to trying to train it only with classification head, so I created a model with the following architecture:
+
+Resnet101 backbone -> 2048 features -> 50% droput
+
+3 separate heads - fats, carbs, proteins, each containing 2 fully conected layers 4096 -> 50% dropout -> 4096 -> 1
+
+Here are the results on the test split:
+
+### Mean Absolute Error (MAE) Metrics
+
+| Metric | MAE (Grams/Kcal) | MAE (% of Mean) |
+|--------|------------------|-----------------|
+| Fat    | 2.83g           | 24.5%          |
+| Carbs  | 5.89g           | 31.3%          |
+| Protein| 3.31g           | 26.7%          |
+| Calories| 40.13 kcal     | 17.5%          |
+
+### Mean Values Comparison
+
+| Metric  | Actual Mean | Predicted Mean |
+|---------|-------------|----------------|
+| Fat     | 11.55g      | 11.28g        |
+| Carbs   | 18.80g      | 14.11g        |
+| Protein | 12.42g      | 11.24g        |
+| Calories| 228.87 kcal | 202.94 kcal   |
+
+
+In the next step I am trying to recreate the multitask model with a better loss formula.
+
+Basically the problem was that getting the loss weights right for each head is very time-consuming and hard.
+
+A solution I found is to use one from the paper 'Multi-Task Learning Using Uncertainty to Weigh Losses for Scene Geometry and Semantics'
