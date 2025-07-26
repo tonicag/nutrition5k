@@ -11,17 +11,27 @@
     "test:prediction": "node examples/test-prediction.js",
     "test:zod": "npx ts-node examples/zod-validation-demo.ts",
     "start:all": "./scripts/start-services.sh",
-    "clean": "rm -rf dist node_modules package-lock.json"
+    "clean": "rm -rf dist node_modules package-lock.json",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:migrate": "prisma migrate dev",
+    "db:studio": "prisma studio",
+    "db:seed": "ts-node prisma/seed.ts"
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@prisma/client": "^5.20.0",
+    "@types/bcrypt": "^6.0.0",
+    "@types/jsonwebtoken": "^9.0.10",
     "axios": "^1.7.0",
+    "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
     "form-data": "^4.0.0",
+    "jsonwebtoken": "^9.0.2",
     "zod": "^3.23.0"
   },
   "devDependencies": {
@@ -30,6 +40,7 @@
     "@types/node": "^24.1.0",
     "nodemon": "^3.1.10",
     "prettier": "^3.6.2",
+    "prisma": "^5.20.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   }

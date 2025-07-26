@@ -43,8 +43,21 @@ export const validateBase64Image = (base64String: string): boolean => {
     }
 };
 
-export const validateRequest = <T>(schema: z.ZodSchema<T>) => {
-    return (data: unknown) => {
+type ValidationSuccess<T> = {
+    success: true;
+    data: T;
+};
+
+type ValidationError = {
+    success: false;
+    error: string;
+    details: z.ZodIssue[];
+};
+
+type ValidationResult<T> = ValidationSuccess<T> | ValidationError;
+
+export const validateRequest = <T>(schema: z.ZodType<T>) => {
+    return (data: unknown): ValidationResult<T> => {
         const result = schema.safeParse(data);
 
         if (!result.success) {
@@ -53,15 +66,15 @@ export const validateRequest = <T>(schema: z.ZodSchema<T>) => {
             return {
                 success: false,
                 error: errors
-                    .map((error) => `${error.path}: ${error.message}`)
-                    .join(";"),
+                    .map((error) => `${error.path.join(".")}: ${error.message}`)
+                    .join("; "),
                 details: errors,
-            };
+            } as const;
         }
 
         return {
             success: true,
             data: result.data,
-        };
+        } as const;
     };
 };

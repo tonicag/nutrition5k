@@ -1,9 +1,8 @@
+import cors from "cors";
 import "dotenv/config";
 import express from "express";
-import cors from "cors";
-import apiKeyAuthenticator from "./middlewares/api-key-authenticator";
-import routes from "./routes";
 import { errorHandler, notFoundHandler } from "./middlewares/errorHandler";
+import routes from "./routes";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -14,7 +13,7 @@ app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
 // Authentication middleware
-app.use(apiKeyAuthenticator);
+// app.use(apiKeyAuthenticator);
 
 // Health check endpoint
 app.get("/", (req, res) => {
