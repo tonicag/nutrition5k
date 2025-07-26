@@ -1,7 +1,8 @@
 #!/bin/bash
 
-cd api/model_service
+cd backend
 ./start.sh
 
-cd ../backend
-npm run start
+cd ..
+cd model_service
+./start.sh
