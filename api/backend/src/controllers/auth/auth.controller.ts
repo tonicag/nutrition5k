@@ -43,9 +43,13 @@ class AuthController {
             data: { email, password: hashedPassword },
         });
 
-        const response: ApiResponse<User> = {
+        const token = generateToken({ userId: user.id, email: user.email });
+
+        const safeUser = { ...user, password: undefined };
+
+        const response: ApiResponse<{ token: string; user: Partial<User> }> = {
             success: true,
-            data: user,
+            data: { token, user: safeUser },
         };
 
         res.status(201).json(response);
@@ -91,10 +95,12 @@ class AuthController {
         }
 
         const token = generateToken({ userId: user.id, email: user.email });
+
         const response: ApiResponse<{ token: string; email: string }> = {
             success: true,
             data: { token, email: user.email },
         };
+
         res.status(200).json(response);
     }
 }
