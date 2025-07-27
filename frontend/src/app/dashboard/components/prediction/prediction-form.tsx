@@ -17,7 +17,7 @@ import { useCallback, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import {
-    fileToBase64,
+    compressAndConvertToBase64,
     PredictionFormData,
     predictionFormSchema,
 } from "./prediction-form-schema";
@@ -108,7 +108,9 @@ export default function PredictionForm({
     const handleSubmit = useCallback(
         async (data: PredictionFormData) => {
             try {
-                const base64Image = await fileToBase64(data.image);
+                const base64Image = await compressAndConvertToBase64(
+                    data.image
+                );
                 await onSubmit?.({ image: base64Image });
                 setTimeout(() => {
                     predictionRef.current?.scrollIntoView({

@@ -5,19 +5,19 @@ const base64ImageSchema = z
     .string()
     .min(1, "Image is required")
     .regex(
-        /^data:image\/[a-zA-Z]+;base64,([A-Za-z0-9+/]+=*)$/,
-        "Image must be a valid base64 data URL (data:image/type;base64,...)"
+        /^data:(image\/[a-zA-Z]+|application\/octet-stream);base64,([A-Za-z0-9+/]+=*)$/,
+        "Image must be a valid base64 data URL"
     )
     .refine((value: string) => {
         try {
             const base64Data = value.split(",")[1];
             const buffer = Buffer.from(base64Data, "base64");
 
-            return buffer.length > 100 && buffer.length < 10 * 1024 * 1024; // 100 bytes to 10MB
+            return buffer.length > 100 && buffer.length < 5 * 1024 * 1024;
         } catch {
             return false;
         }
-    }, "Image size must be between 100 bytes and 10MB");
+    }, "Image size must be between 100 bytes and 5MB");
 
 const massSchema = z
     .number()
