@@ -62,7 +62,7 @@ export const validateRequest = <T>(schema: z.ZodType<T>) => {
 
         if (!result.success) {
             const errors = result.error.errors;
-
+            console.log({ errors });
             return {
                 success: false,
                 error: errors

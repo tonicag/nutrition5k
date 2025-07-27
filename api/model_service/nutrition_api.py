@@ -18,6 +18,9 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__)
 CORS(app)
 
+# Set maximum upload size to 20MB
+app.config['MAX_CONTENT_LENGTH'] = 20 * 1024 * 1024  # 20MB
+
 load_dotenv()
 
 logging.basicConfig(level=logging.INFO)
