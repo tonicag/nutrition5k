@@ -1,3 +1,5 @@
+import Prediction from "@/app/dashboard/components/prediction/prediction";
+
 export default function DashboardPage() {
-    return <div>Dashboard</div>;
+    return <Prediction />;
 }

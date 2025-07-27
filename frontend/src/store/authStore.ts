@@ -23,8 +23,10 @@ export type AuthStore = {
     isLoading: boolean;
     setIsLoading: (isLoading: boolean) => void;
 
-    jwtToken: string | null;
-    setJwtToken: (jwtToken: string | null) => void;
+    jwtToken: string;
+    setJwtToken: (jwtToken: string) => void;
+
+    logout: () => void;
 };
 
 export const createAuthStore = () =>
@@ -40,28 +42,37 @@ export const createAuthStore = () =>
 
                 logIn: async (body) => {
                     const response = await authAPI.login(body);
-
+                    console.log({ response });
                     set({
                         user: response.user,
                         isAuthenticated: true,
-                        jwtToken: response.token,
+                        jwtToken: response.data.token,
                     });
                 },
                 register: async (body) => {
                     const response = await authAPI.register(body);
 
+                    console.log({ response });
                     set({
                         user: response.user,
                         isAuthenticated: true,
-                        jwtToken: response.token,
+                        jwtToken: response.data.token,
                     });
                 },
 
                 isLoading: true,
                 setIsLoading: (isLoading) => set({ isLoading }),
 
-                jwtToken: null,
+                jwtToken: "",
                 setJwtToken: (jwtToken) => set({ jwtToken }),
+
+                logout: () => {
+                    set({
+                        user: null,
+                        isAuthenticated: false,
+                        jwtToken: "",
+                    });
+                },
             }),
             {
                 name: "auth-store",

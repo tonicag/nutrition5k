@@ -1,6 +1,7 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import {
     ArrowDown,
     ArrowRight,
@@ -12,6 +13,7 @@ import {
     Sparkles,
     Wheat,
 } from "lucide-react";
+import Link from "next/link";
 
 export default function Hero() {
     return (
@@ -177,20 +179,23 @@ export default function Hero() {
                             insights
                         </p>
                         <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center items-center px-4">
-                            <Button
-                                size="default"
-                                className="w-full sm:w-auto text-base md:text-lg p-2 h-auto shadow-lg hover:shadow-xl transition-all duration-300"
+                            <Link
+                                href="/auth/register"
+                                className={cn(
+                                    buttonVariants({ variant: "default" }),
+                                    "w-full sm:w-auto text-base md:text-lg p-2 h-auto shadow-lg hover:shadow-xl transition-all duration-300"
+                                )}
                             >
                                 <Camera className="w-4 h-4 md:w-5 md:h-5 mr-2" />
                                 Start Analyzing
-                            </Button>
-                            <Button
+                            </Link>
+                            {/* <Button
                                 size="default"
                                 variant="outline"
                                 className="w-full sm:w-auto text-base md:text-lg p-2 h-auto shadow-lg hover:shadow-xl transition-all duration-300"
                             >
                                 View Demo
-                            </Button>
+                            </Button> */}
                         </div>
                     </div>
 

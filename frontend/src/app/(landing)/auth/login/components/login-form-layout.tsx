@@ -41,13 +41,12 @@ export default function LoginFormLayout({ className }: { className?: string }) {
                 await logIn(data);
                 router.push("/dashboard");
             } catch (error) {
-                console.log({ error });
                 if (isAxiosError(error)) {
-                    toast(error.response?.data.error, {
+                    toast.error(error.response?.data.error, {
                         description: "Please try again",
                     });
                 } else {
-                    toast("An unknown error occurred", {
+                    toast.error("An unknown error occurred", {
                         description: "Please try again",
                     });
                 }

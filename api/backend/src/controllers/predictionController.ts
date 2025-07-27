@@ -1,14 +1,15 @@
 import { Request, Response } from "express";
 import modelService from "../services/modelService";
+import predictionService from "../services/prediction/predictionService";
 import {
+    ApiResponse,
+    MacronutrientPredictionResponse,
+} from "../types/nutrition";
+import {
+    MacronutrientPredictionRequest,
     macronutrientPredictionSchema,
     validateRequest,
-    MacronutrientPredictionRequest,
 } from "../validators/nutritionValidator";
-import {
-    MacronutrientPredictionResponse,
-    ApiResponse,
-} from "../types/nutrition";
 
 export class PredictionController {
     /**
@@ -43,6 +44,14 @@ export class PredictionController {
 
             const predictionResult: MacronutrientPredictionResponse =
                 await modelService.predictNutrition(image, mass);
+
+            const savedPrediction = await predictionService.savePrediction({
+                userId: req.user?.userId as string,
+                image: image,
+                macronutrients_per_gram:
+                    predictionResult.macronutrients_per_gram as any,
+                metadata: predictionResult.metadata as any,
+            });
 
             delete predictionResult.metadata.filename;
 

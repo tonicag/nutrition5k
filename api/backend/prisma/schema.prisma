@@ -19,4 +19,19 @@ model User {
     password  String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+
+    predictions Prediction[]
+}
+
+model Prediction {
+    id        String   @id @default(uuid())
+    userId    String
+    user      User     @relation(fields: [userId], references: [id])
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    image String?
+
+    macronutrients_per_gram Json?
+    metadata                Json?
 }
