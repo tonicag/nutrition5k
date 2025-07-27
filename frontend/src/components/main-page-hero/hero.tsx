@@ -175,8 +175,7 @@ export default function Hero() {
                 <div className="text-center mt-12 md:mt-16 space-y-6">
                     <div className="space-y-4">
                         <p className="text-base md:text-lg text-muted-foreground px-4">
-                            Join thousands of users getting instant nutrition
-                            insights
+                            Get instant nutrition insights
                         </p>
                         <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center items-center px-4">
                             <Link
