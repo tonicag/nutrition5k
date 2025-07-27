@@ -4,15 +4,16 @@ Flask API for macronutrient prediction
 Run this as a separate service that your Express.js app can call
 """
 
-from flask import Flask, request, jsonify
-from flask_cors import CORS
+import logging
 import os
 import tempfile
 import uuid
-from werkzeug.utils import secure_filename
-import logging
-from model_inference import NutritionPredictor
+
 from dotenv import load_dotenv
+from flask import Flask, jsonify, request
+from flask_cors import CORS
+from model_inference import NutritionPredictor
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 CORS(app)
@@ -26,7 +27,8 @@ MODEL_PATH = os.environ.get(
     'MODEL_PATH', './model_epoch_15_20250609_144020.pth')
 DEVICE = os.environ.get('DEVICE', 'cpu')
 UPLOAD_FOLDER = tempfile.gettempdir()
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'bmp', 'tiff'}
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg',
+                      'gif', 'bmp', 'tiff', 'heic', 'heif'}
 
 predictor = None
 
@@ -137,8 +139,9 @@ def predict_from_url():
 
         image_url = data['image_url']
 
-        import requests
         from urllib.parse import urlparse
+
+        import requests
 
         try:
             response = requests.get(image_url, timeout=30)

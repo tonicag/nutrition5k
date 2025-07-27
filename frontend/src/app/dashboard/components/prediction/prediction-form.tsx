@@ -55,20 +55,31 @@ export default function PredictionForm({
         [form, onReset]
     );
 
+    const isImageFile = (file: File): boolean => {
+        if (file.type.startsWith("image/")) {
+            return true;
+        }
+
+        const extension = file.name.toLowerCase().split(".").pop();
+        const validExtensions = ["jpg", "jpeg", "png", "webp", "heic", "heif"];
+        return extension ? validExtensions.includes(extension) : false;
+    };
+
     const handleDrop = useCallback(
         (e: React.DragEvent) => {
             e.preventDefault();
             setIsDragOver(false);
 
             const files = Array.from(e.dataTransfer.files);
-            const imageFile = files.find((file) =>
-                file.type.startsWith("image/")
-            );
-
+            console.log(files);
+            const imageFile = files.find((file) => isImageFile(file));
+            console.log(imageFile);
             if (imageFile) {
                 handleFileChange(imageFile);
             } else {
-                toast.error("Please upload an image file");
+                toast.error(
+                    "Please upload an image file (JPEG, PNG, WebP, or HEIC)"
+                );
             }
         },
         [handleFileChange]

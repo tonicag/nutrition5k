@@ -10,14 +10,32 @@ const ACCEPTED_IMAGE_TYPES = [
     "image/heif",
 ];
 
+const ACCEPTED_IMAGE_EXTENSIONS = [
+    "jpg",
+    "jpeg",
+    "png",
+    "webp",
+    "heic",
+    "heif",
+];
+
+const isValidImageFile = (file: File): boolean => {
+    if (file.type && ACCEPTED_IMAGE_TYPES.includes(file.type)) {
+        return true;
+    }
+
+    const extension = file.name.toLowerCase().split(".").pop();
+    return extension ? ACCEPTED_IMAGE_EXTENSIONS.includes(extension) : false;
+};
+
 export const predictionFormSchema = z.object({
     image: z
         .instanceof(File)
         .refine((file) => file.size <= MAX_FILE_SIZE, {
             message: "File size must be less than 5MB",
         })
-        .refine((file) => ACCEPTED_IMAGE_TYPES.includes(file.type), {
-            message: "Only JPEG, PNG, and WebP images are allowed",
+        .refine((file) => isValidImageFile(file), {
+            message: "Only JPEG, PNG, WebP, and HEIC images are allowed",
         }),
 });
 
