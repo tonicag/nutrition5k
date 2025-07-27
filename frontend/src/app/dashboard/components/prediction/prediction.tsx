@@ -4,6 +4,7 @@ import {
     EnhancedPredictionResponse,
     predictAPI,
 } from "@/services/API/prediction";
+import { isAxiosError } from "axios";
 import { useState } from "react";
 import { toast } from "sonner";
 import PredictionForm from "./prediction-form";
@@ -25,9 +26,16 @@ export default function Prediction() {
             });
         } catch (error) {
             console.error("Error analyzing image:", error);
-            toast.error("Analysis failed", {
-                description: "Please try again with a different image",
-            });
+            if (isAxiosError(error)) {
+                toast.error(error.response?.data.error);
+            } else {
+                toast.error("Something went wrong", {
+                    description:
+                        error instanceof Error
+                            ? error.message
+                            : "Unknown error",
+                });
+            }
         } finally {
         }
     };
