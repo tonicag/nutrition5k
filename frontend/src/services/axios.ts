@@ -32,7 +32,7 @@ export const setupAxiosInterceptors = (
             if (error.response?.status === 401) {
                 authStore.getState().setUser(null);
                 authStore.getState().setIsAuthenticated(false);
-                authStore.getState().setJwtToken(null);
+                authStore.getState().setJwtToken("");
             }
             return Promise.reject(error);
         }
